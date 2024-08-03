@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    {% comment %} C:\Users\visha\Desktop\anand python\django_project\weather_project\static\style.css {% endcomment %}
+    <link  rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <h1><i class="fas fa-cloud-sun"></i> Weather App</h1>
+    <form method="POST">
+        {% csrf_token %}
+
+        <input type="text" name="city" placeholder="Enter city" required>
+        <button type="submit"><i class="fas fa-search"></i> Get Weather</button>
+    </form>
+
+    <div id="loading">
+        <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: #ff6347;"></i>
+    </div>
+
+    {% if city %}
+    <div class="weather-info">
+        <h2>Weather in  {{ city }}</h2>
+        <p>Temperature : {{ temperature }}°C</p>
+        <p>Pressure : {{ pressure }} mb</p>
+        <p>Humidity : {{ humidity }} </p>
+        <p> Wind Speed : {{ windspeed }} </p>
+        <p>Description: {{ description }}</p>
+        <img src="http://openweathermap.org/img/wn/{{ icon }}@2x.png" alt="{{ description }}">
+    </div>
+    {% elif error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <footer>
+        <p style="color: #fff;">Weather  App Developed by Ap dhangar with the help of Openweather API . </p>
+    </footer>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function() {
+            document.getElementById('loading').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
